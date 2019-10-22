@@ -77,6 +77,23 @@ if(!$employeeTable->update('commit')){
 ?>
 ```
 
+Exporting a json
+```php
+<?php
+require('EmployeeModel.php');
+$OCIDB=new OCIdb();
+$response = new stdClass();
+$response->status="getting salary greather than 1000";
+$employeeTable=$OCIDB->loadModel('EmployeeModel');
+$employeeTable->find([
+		    'conditions' => 'salary>1000',
+		    'order by'   =>'salary desc'
+		    ]);
+$response->rows=$employeeTable->exportAsArray();
+die(json_encode($response));		    
+?>
+```
+
 Just very stupid playing around:
 ```php
 <?php
