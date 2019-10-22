@@ -18,7 +18,7 @@ class OCIdb
     public $nr_columns;
     public $thereAreMoreRows = false;
 
-    private $conn = false; //connexion to the database
+    private $conn = false; //connection to the database
     private $initialRowValue = [];
     private $res_parse;
     private $res_res;
