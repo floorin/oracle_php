@@ -3,7 +3,7 @@
 
 *Of course, you need to have enabled OCI8 php extension.*
 
-Simple example how to use:
+Very basic example how to use:
 Create an oracle table:
 ```sql
 CREATE TABLE EMPLOYEE
