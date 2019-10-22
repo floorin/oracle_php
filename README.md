@@ -98,7 +98,7 @@ if($employeeTable->rowExists && $employeeTable->lastname='test';)
 	$employeeTable->delete();
 	}
 
-if($employeeTable->next())//or we can check if next() still is getting data
+if($employeeTable->next())//or we can check if next() is still getting data
 	{
 	$employeeTable->setDataFormat('dd.mm.yyyy');
 	$employeeTable->birthdate='25.05.1971';
