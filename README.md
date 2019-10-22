@@ -9,7 +9,7 @@ loadModel(), findFirst(), find(), next(), exportAsArray(), insert(), update(), d
 
 A very basic example how to use.
 
-Create an oracle table:
+Oracle table:
 ```sql
 CREATE TABLE EMPLOYEE
 (EMPNO NUMBER NOT NULL,
@@ -73,4 +73,38 @@ if(!$employeeTable->update('commit')){
 ?>
 ```
 
+Just very stupid playing around:
+```php
+<?php
+require('EmployeeModel.php');
+$OCIDB=new OCIdb();
+$employeeTable=$OCIDB->loadModel('EmployeeModel');
+$employeeTable->find([
+		    'conditions' => 'lastname like :vlastname',
+		    'bind'       => [
+					":vlastname" => 'JOHN%'
+				    ],
+		    'order by'=>'firstname asc'
+		    ]);
+
+if($employeeTable->rowExists && $employeeTable->empno==123)
+	{ 
+	$employeeTable->lastname='Codreanu';
+	$employeeTable->update();
+	}
+$employeeTable->next();
+if($employeeTable->rowExists && $employeeTable->lastname='test';)
+	{
+	$employeeTable->delete();
+	}
+
+if($employeeTable->next())//or we can check if next() still is getting data
+	{
+	$employeeTable->setDataFormat('dd.mm.yyyy');
+	$employeeTable->birthdate='25.05.1971';
+	$employeeTable->update();
+	}
+$employeeTable->commit();
+?>
+```
       
