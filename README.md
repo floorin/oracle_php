@@ -12,6 +12,7 @@ LASTNAME VARCHAR(30) NOT NULL,
 BIRTHDATE NOT NULL)
 
 Create php file "EmployeeModel.php":
+```php
 <?php
 require('c:\ociphp\OCIdb.php');
 class EmployeeModel extends OCIdb{
@@ -20,8 +21,10 @@ class EmployeeModel extends OCIdb{
     }    
 }
 ?>
+```
 
 Create php file "EmployeeController.php":
+```php
 <?php
 		require('EmployeeModel.php');
 		$OCIDB=new OCIdb();
@@ -39,5 +42,5 @@ Create php file "EmployeeController.php":
 				$status="success";
 			}
 ?>
-
+```
       
