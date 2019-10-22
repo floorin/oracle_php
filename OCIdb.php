@@ -26,7 +26,7 @@ class OCIdb
     private $skipedAttributesOnCreate = [];
     private $skipedAttributesOnUpdate = [];
     private $stId;
-    private $rowExistsInDatabase=false;
+    private $rowExists=false;
 
     public function __construct()
     {
@@ -91,7 +91,7 @@ class OCIdb
     {
         $p_where_conditions = "";
         $bindingTable = [];
-        $this->rowExistsInDatabase = false;
+        $this->rowExists = false;
         $orderByClause = '';
         $sqlForColumns = '';
         if (func_num_args() > 0) {
@@ -121,7 +121,7 @@ class OCIdb
         if (oci_execute($this->stId)) {
             $this->nr_columns = oci_num_fields($this->stId);
             if (($row = oci_fetch_object($this->stId)) != false) {
-                $this->rowExistsInDatabase = true;
+                $this->rowExists = true;
                 foreach ($row as $var => $value) {
                     $this->{strtolower($var)} = $value;
                     $this->initialRowValue[strtolower($var)] = $value;
@@ -131,14 +131,14 @@ class OCIdb
             $e = oci_error($this->stId);
             $this->error_message = $e["message"];
             $this->error_code = $e["code"];return false;}
-        return $rowExistsInDatabase;
+        return $rowExists;
     }
 
     public function find($p_array_of_params = null)
     {
         $p_where_conditions = "1=1";
         $bindingTable = [];
-        $this->rowExistsInDatabase = false;
+        $this->rowExists = false;
         $orderByClause = '';
         $sqlForColumns = '';
         if (func_num_args() > 0) {
@@ -168,14 +168,14 @@ class OCIdb
         if (oci_execute($this->stId)) {
             $this->nr_columns = oci_num_fields($this->stId);
             if (($row = oci_fetch_object($this->stId)) != false) {
-                $this->rowExistsInDatabase = true;
+                $this->rowExists = true;
                 foreach ($row as $var => $value) {
                     $this->{strtolower($var)} = $value;
                     $this->initialRowValue[strtolower($var)] = $value;
                 }
             }
             else{
-                $this->rowExistsInDatabase = false;
+                $this->rowExists = false;
             }
 
             //$v_result=oci_fetch_object($res_parse,OCI_FETCHSTATEMENT_BY_ROW+OCI_ASSOC+OCI_RETURN_NULLS);
@@ -183,14 +183,14 @@ class OCIdb
             $e = oci_error($this->stId);
             $this->error_message = $e["message"];
             $this->error_code = $e["code"];return false;}
-        return $this->rowExistsInDatabase;
+        return $this->rowExists;
     }
 
     public function fetchTable($p_array_of_params = null)
     {
         $p_where_conditions = "1=1";
         $bindingTable = [];
-        $this->rowExistsInDatabase = false;
+        $this->rowExists = false;
         $orderByClause = '';
         $result = [];
         $sqlForColumns = '';
@@ -234,15 +234,15 @@ class OCIdb
     }
     public function next()
     {
-        $this->rowExistsInDatabase = false;
+        $this->rowExists = false;
         if (($row = oci_fetch_object($this->stId)) != false) {
-            $this->rowExistsInDatabase = true;
+            $this->rowExists = true;
             foreach ($row as $var => $value) {
                 $this->{strtolower($var)} = $value;
                 $this->initialRowValue[strtolower($var)] = $value;
             }
         }
-        return $this->rowExistsInDatabase;
+        return $this->rowExists;
     }
 
     public function update($pcommittype = null)
@@ -411,7 +411,7 @@ class OCIdb
 
     public function exportAsArray(){
         $tmpArr=[];
-        while($this->rowExistsInDatabase){
+        while($this->rowExists){
             $oneRow=[];
             foreach ($this->arrColsInfo as $x_column => $x_datatype) {
                 $oneRow[$x_column]=$this->{$x_column};
