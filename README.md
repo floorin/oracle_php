@@ -16,7 +16,7 @@ BIRTHDATE NOT NULL)
 Create php file "EmployeeModel.php":
 ```php
 <?php
-require('c:\ociphp\OCIdb.php');
+require('path_to_\OCIdb.php');
 class EmployeeModel extends OCIdb{
     public function setSource(){
         $this->table_name='employee';
