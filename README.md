@@ -7,7 +7,8 @@
 Returns an object that contains the columns of the table as property, and the following methods:
 loadModel(), findFirst(), find(), next(), exportAsArray(), insert(), update(), delete(), beginTransaction(), rollback(), fetchTable(), checkIfIsNull(), commit() and of course sql_query(). 
 
-Very basic example how to use:
+A very basic example how to use.
+
 Create an oracle table:
 ```sql
 CREATE TABLE EMPLOYEE
