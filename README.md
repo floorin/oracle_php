@@ -133,7 +133,7 @@ class EmployeeModel extends OCIdb{
 	$this->skipAttributesOnCreate(['empno']);
 	
 	//skip some columns on UPDATE operation
-	$this->skipAttributesOnUpdate(['hiredate']);
+	$this->skipAttributesOnUpdate(['empno','firstname']);
     }
     
     /*
