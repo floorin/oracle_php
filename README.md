@@ -1,7 +1,7 @@
 # oracle_php
 # Lighweight library to work with oracle using php
 
-######Of course, you need to have enabled OCI8 php extension.
+#####Of course, you need to have enabled OCI8 php extension.
 
 Simple example how to use:
 Create an oracle table:
