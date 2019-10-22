@@ -45,4 +45,27 @@ if(!$employeeTable->insert('commit')){
 }
 ?>
 ```
+
+Another basic example:
+```php
+<?php
+require('EmployeeModel.php');
+$OCIDB=new OCIdb();
+$employeeTable=$OCIDB->loadModel('EmployeeModel');
+$employeeTable->findFirst([
+		    'conditions' => 'empno = :vempno',
+		    'bind'       => [
+					":vempno" => 123
+				    ]
+		    ]);
+$employeeTable->lastname='Codreanu';
+if(!$employeeTable->update('commit')){
+	$status="error";
+	$messages = $employeeTable->error_message; 
+}else{
+	$status="success";
+}
+?>
+```
+
       
