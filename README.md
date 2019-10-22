@@ -2,7 +2,7 @@
 # Lighweight library to work with oracle using php
 ## Automatically detects the columns of the table
 
-*Of course, you need to have enabled OCI8 php extension. The library is under development and the goal is to be ready until December 1, 2019*
+*Of course, you need to have enabled OCI8 php extension. The library is under development and the goal is to be ready until December 1, 2019 + Wiki pages.*
 
 Returns an object that contains the columns of the table as property, and the following methods:
 loadModel(), findFirst(), find(), next(), exportAsArray(), insert(), update(), delete(), beginTransaction(), rollback(), fetchTable(), checkIfIsNull(), commit() and of course sql_query(). 
