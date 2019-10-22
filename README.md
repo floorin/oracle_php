@@ -5,11 +5,13 @@ This class require to have enabled OCI8 extension.
 
 Simple example how to use:
 Create an oracle table:
+```sql
 CREATE TABLE EMPLOYEE
 (EMPNO NUMBER NOT NULL,
 FIRSTNAME VARCHAR(30) NOT NULL,
 LASTNAME VARCHAR(30) NOT NULL,
 BIRTHDATE NOT NULL)
+```
 
 Create php file "EmployeeModel.php":
 ```php
