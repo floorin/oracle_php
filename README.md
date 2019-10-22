@@ -1,7 +1,11 @@
 # oracle_php
 # Lighweight library to work with oracle using php
+## Automatically detects the columns of the table
 
 *Of course, you need to have enabled OCI8 php extension.*
+
+Returns an object that contains the columns of the table as property, and the following methods:
+loadModel(), findFirst(), find(), next(), exportAsArray(), insert(), update(), delete(), beginTransaction(), rollback(), fetchTable(), checkIfIsNull(), commit() and of course sql_query(). 
 
 Very basic example how to use:
 Create an oracle table:
