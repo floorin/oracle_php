@@ -30,7 +30,7 @@ Create php file "EmployeeController.php":
 <?php
 require('EmployeeModel.php');
 $OCIDB=new OCIdb();
-$employeeTable=$OCIDB->loadModel('TicheteExceptiiModel');
+$employeeTable=$OCIDB->loadModel('EmployeeModel');
 $employeeTable->empno=123;
 $employeeTable->firstname='Florin';
 $employeeTable->lastname='Florin';
