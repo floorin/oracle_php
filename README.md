@@ -77,7 +77,7 @@ if(!$employeeTable->update('commit')){
 ?>
 ```
 
-Exporting a json
+Exporting json:
 ```php
 <?php
 require('EmployeeModel.php');
