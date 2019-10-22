@@ -15,7 +15,11 @@ CREATE TABLE EMPLOYEE
 (EMPNO NUMBER NOT NULL,
 FIRSTNAME VARCHAR(30) NOT NULL,
 LASTNAME VARCHAR(30) NOT NULL,
-BIRTHDATE NOT NULL)
+BIRTHDATE NOT NULL,
+HIREDATE NOT NULL,
+JOB VARCHAR(30) NOT NULL,
+SALARY NUMBER(7,2)
+)
 ```
 
 Create php file "EmployeeModel.php":
@@ -107,4 +111,35 @@ if($employeeTable->next())//or we can check if next() is still getting data
 $employeeTable->commit();
 ?>
 ```
-      
+
+Adding a bit of complexity declaring the model ("EmployeeModel.php"):
+```php
+<?php
+require('path_to_\OCIdb.php');
+class EmployeeModel extends OCIdb{
+    public function setSource(){
+        $this->table_name='employee';
+    }    
+
+      public function initialize()
+    {
+	//set format data
+        $this->setDataFormat('dd.mm.yyyy');
+	
+	//skip selecting some columns
+	$this->skipAttributes(['hiredate','salary']);
+	
+	//skip some columns on INSERT operation
+	$this->skipAttributesOnCreate(['empno']);
+	
+	//skip some columns on UPDATE operation
+	$this->skipAttributesOnUpdate(['hiredate']);
+    }
+    
+    /*
+    of course, you can redeclare, for instance, an insert/update/delete or whatever parent's method in this model
+    and implement your validations.
+    */
+}
+?>
+```
