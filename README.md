@@ -4,7 +4,7 @@
 
 *Of course, you need to have enabled OCI8 php extension. The library is under development and the goal is to be ready until December 1, 2019 + Wiki pages.*
 
-After the loadModel() call results an object that contains the columns of the table as property, and the following methods:
+After the loadModel() call, results an object that contains the columns of the table as property, and the following methods:
 findFirst(), find(), next(), exportAsArray(), insert(), update(), delete(), beginTransaction(), rollback(), fetchTable(), checkIfIsNull(), commit() and of course sql_query(). 
 
 A very basic example how to use.
