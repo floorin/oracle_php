@@ -86,6 +86,14 @@ class OCIdb
             return false;
         }
     }
+    
+    public function reset(){
+            foreach ($this->arrColsInfo as $x_column => $x_datatype) {
+                if($x_column!='idrowid'){
+                    $this->{$x_column}='';
+                }
+                }
+    }   
 
     public function findFirst($p_array_of_params = null)
     {
