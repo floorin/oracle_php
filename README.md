@@ -5,7 +5,7 @@
 *Of course, you need to have enabled OCI8 php extension. The library is under development and the goal is to be ready until December 1, 2019 + Wiki pages.*
 
 After the loadModel() call, results an object that contains the columns of the table as property, and the following methods:
-findFirst(), find(), next(), exportAsArray(), insert(), update(), delete(), beginTransaction(), rollback(), fetchTable(), checkIfIsNull(), commit(), reset() and of course sql_query(). 
+findFirst(), find(), next(), exportAsArray(), create(), update(), delete(), beginTransaction(), rollback(), fetchTable(), checkIfIsNull(), commit(), reset() and of course sql_query(). 
 
 A very basic example how to use.
 
@@ -46,7 +46,7 @@ $employeeTable->lastname='Florin';
 $employeeTable->setDataFormat('dd.mm.yyyy');
 $employeeTable->birthdate='10.05.1971';
 
-if(!$employeeTable->insert('commit')){
+if(!$employeeTable->create('commit')){
 	$status="error";
 	$messages = $employeeTable->error_message; 
 }else{
