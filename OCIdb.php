@@ -27,6 +27,7 @@ class OCIdb
     private $skipedAttributesOnUpdate = [];
     private $stId;
     private $rowExists=false;
+    private $columnsAlias=[];
 
     public function __construct()
     {
@@ -422,14 +423,18 @@ class OCIdb
         while($this->rowExists){
             $oneRow=[];
             foreach ($this->arrColsInfo as $x_column => $x_datatype) {
-                $oneRow[$x_column]=$this->{$x_column};
-                
+
+                if(array_key_exists($x_column, $this->columnsAlias)){
+                    $oneRow[$this->columnsAlias[$x_column]]=$this->{$x_column};
+                }
+                else{
+                    $oneRow[$x_column]=$this->{$x_column};
+                }
             }
             array_push($tmpArr,$oneRow);
             $this->next();
         }
         return $tmpArr;
-        //return json_encode($tmpArr);
     }
     
     public function sql_query($p_array_of_params = null)
@@ -615,6 +620,12 @@ class OCIdb
         if (func_num_args() > 0) {
             $this->skipedAttributesOnUpdate = $p_array_of_params;
         }
+    }
+    
+    protected function setColumnAlias($p_array_of_params = null){
+                if (func_num_args() > 0) {
+                    $this->columnsAlias = $p_array_of_params;
+                }
     }
 }
 ?>
