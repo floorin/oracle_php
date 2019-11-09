@@ -33,7 +33,7 @@ Create php file "EmployeeModel.php":
 require('path_to_\OCIdb.php');
 class EmployeeModel extends OCIdb{
     public function setSource(){
-        $this->table_name='employee';
+        $this->_table_name='employee';
     }    
 }
 ?>
@@ -140,7 +140,7 @@ Adding a bit of complexity declaring the model ("EmployeeModel.php"):
 require('path_to_\OCIdb.php');
 class EmployeeModel extends OCIdb{
     public function setSource(){
-        $this->table_name='employee';
+        $this->_table_name='employee';
     }    
 
       public function initialize()
