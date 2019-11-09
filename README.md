@@ -53,7 +53,7 @@ $employeeTable->birthdate='10.05.1971';
 
 if(!$employeeTable->create('commit')){
 	$status="error";
-	$messages = $employeeTable->error_message; 
+	$messages = $employeeTable->_error_message; 
 }else{
 	$status="success";
 }
@@ -75,7 +75,7 @@ $employeeTable->findFirst([
 $employeeTable->lastname='Codreanu';
 if(!$employeeTable->update('commit')){
 	$status="error";
-	$messages = $employeeTable->error_message; 
+	$messages = $employeeTable->_error_message; 
 }else{
 	$status="success";
 }
