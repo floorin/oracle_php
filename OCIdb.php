@@ -250,7 +250,11 @@ class OCIdb
         }
         $firstCycle = true;
         foreach ($this->arrColsInfo as $x_column => $x_datatype) {
-            $sqlForColumns .= ($firstCycle ? '' : ',') . ' x.' . $x_column . ' as "' . $x_column . '"';
+            if (array_key_exists($x_column, $this->columnsAlias)) {
+                $sqlForColumns .= ($firstCycle ? '' : ',') . ' x.' . $x_column . ' as "' . $this->columnsAlias[$x_column] . '"';
+            } else {
+                $sqlForColumns .= ($firstCycle ? '' : ',') . ' x.' . $x_column . ' as "' . $x_column . '"';
+            }
             $firstCycle = false;
         }
         $cmd_sql = 'select ' . $sqlForColumns . ',rowidtochar(rowid) as "idrowid" from ' . $this->table_name . ' x WHERE ' . $p_where_conditions . $orderByClause;
@@ -274,7 +278,7 @@ class OCIdb
             }
         } else {
             echo "error";
-            $e = oci_error($res_parse);
+            $e = oci_error($this->res_parse);
             $this->error_message = $e["message"];
             $this->error_code = $e["code"];
             return false;
