@@ -13,8 +13,8 @@ class OCIdb
     protected $table_name = '';
     public $idrowid = '';
     public $arrColsInfo = [];
-    public $error_code = 0;
-    public $error_message = '';
+    public $_error_code = 0;
+    public $_error_message = '';
     public $nr_rows;
     public $nr_columns;
     public $thereAreMoreRows = false;
@@ -46,8 +46,8 @@ class OCIdb
         }
         if (!$this->conn) {
             $m = oci_error();
-            $this->error_code = $m['code'];
-            $this->error_message = $m['message'];
+            $this->_error_code = $m['code'];
+            $this->_error_message = $m['message'];
             return false;
         } else {
             return $this->conn;
@@ -145,8 +145,8 @@ class OCIdb
 
         if (!$this->stId) {
             $e = oci_error($cmd_sql);
-            $this->error_message = $e["message"];
-            $this->error_code = $e["code"];
+            $this->_error_message = $e["message"];
+            $this->_error_code = $e["code"];
         }
         if (oci_execute($this->stId)) {
             $this->nr_columns = oci_num_fields($this->stId);
@@ -160,8 +160,8 @@ class OCIdb
         } else {
             echo "error";
             $e = oci_error($this->stId);
-            $this->error_message = $e["message"];
-            $this->error_code = $e["code"];
+            $this->_error_message = $e["message"];
+            $this->_error_code = $e["code"];
             return false;
         }
         return $rowExists;
@@ -203,8 +203,8 @@ class OCIdb
 
         if (!$this->stId) {
             $e = oci_error($cmd_sql);
-            $this->error_message = $e["message"];
-            $this->error_code = $e["code"];
+            $this->_error_message = $e["message"];
+            $this->_error_code = $e["code"];
         }
         if (oci_execute($this->stId)) {
             $this->nr_columns = oci_num_fields($this->stId);
@@ -222,8 +222,8 @@ class OCIdb
         } else {
             echo "error";
             $e = oci_error($this->stId);
-            $this->error_message = $e["message"];
-            $this->error_code = $e["code"];
+            $this->_error_message = $e["message"];
+            $this->_error_code = $e["code"];
             return false;
         }
         return $this->rowExists;
@@ -266,8 +266,8 @@ class OCIdb
 
         if (!$this->res_parse) {
             $e = oci_error($cmd_sql);
-            $this->error_message = $e["message"];
-            $this->error_code = $e["code"];
+            $this->_error_message = $e["message"];
+            $this->_error_code = $e["code"];
         }
         if (oci_execute($this->res_parse)) {
             $this->nr_columns = oci_num_fields($this->res_parse);
@@ -279,8 +279,8 @@ class OCIdb
         } else {
             echo "error";
             $e = oci_error($this->res_parse);
-            $this->error_message = $e["message"];
-            $this->error_code = $e["code"];
+            $this->_error_message = $e["message"];
+            $this->_error_code = $e["code"];
             return false;
         }
         return $result;
@@ -372,15 +372,15 @@ class OCIdb
             oci_bind_by_name($res_parse, ":v_rowid", $this->idrowid);
         } else { //error on parsing
             $e = oci_error($res_parse);
-            $this->error_message = $e["message"];
-            $this->error_code = $e["code"];
+            $this->_error_message = $e["message"];
+            $this->_error_code = $e["code"];
         }
         if (@oci_execute($res_parse, $vAutoCommit)) {
             $v_row_has_been_updated = true;
         } else {
             $e = oci_error($res_parse);
-            $this->error_message = $e["message"];
-            $this->error_code = $e["code"];
+            $this->_error_message = $e["message"];
+            $this->_error_code = $e["code"];
         }
         return $v_row_has_been_updated;
     }
@@ -462,15 +462,15 @@ class OCIdb
         } else { //error on parsing
             die('error on parsing');
             $e = oci_error($res_parse);
-            $this->error_message = $e["message"];
-            $this->error_code = $e["code"];
+            $this->_error_message = $e["message"];
+            $this->_error_code = $e["code"];
         }
         if (@oci_execute($res_parse, $vAutoCommit)) {
             $v_row_has_been_inserted = true;
         } else {
             $e = oci_error($res_parse);
-            $this->error_message = $e["message"];
-            $this->error_code = $e["code"];
+            $this->_error_message = $e["message"];
+            $this->_error_code = $e["code"];
         }
         return $v_row_has_been_inserted;
     }
@@ -494,15 +494,15 @@ class OCIdb
             oci_bind_by_name($res_parse, ":v_rowid", $this->idrowid);
         } else { //error on parsing
             $e = oci_error($res_parse);
-            $this->error_message = $e["message"];
-            $this->error_code = $e["code"];
+            $this->_error_message = $e["message"];
+            $this->_error_code = $e["code"];
         }
         if (oci_execute($res_parse, $vAutoCommit)) {
             $v_row_has_been_updated = true;
         } else {
             $e = oci_error($res_parse);
-            $this->error_message = $e["message"];
-            $this->error_code = $e["code"];
+            $this->_error_message = $e["message"];
+            $this->_error_code = $e["code"];
         }
         return $v_row_has_been_deleted;
     }
@@ -560,7 +560,7 @@ class OCIdb
                 $vAutoCommit = OCI_COMMIT_ON_SUCCESS;
             }
         }
-        $this->error_code = 0;
+        $this->_error_code = 0;
         if ($bindingTable) { //avem cod sql cu variabile binding
             $this->res_parse = oci_parse($this->conn, $p_sql);
             if ($this->res_parse) {
@@ -606,14 +606,14 @@ class OCIdb
                     }
                 } else {
                     $e = oci_error($this->res_parse);
-                    $this->error_message = $e["message"];
-                    $this->error_code = $e["code"];
+                    $this->_error_message = $e["message"];
+                    $this->_error_code = $e["code"];
                     return false;
                 }
             } else {
                 $e = oci_error($this->res_parse);
-                $this->error_message = $e["message"];
-                $this->error_code = $e["code"];
+                $this->_error_message = $e["message"];
+                $this->_error_code = $e["code"];
                 return false;
             }
         } else { //e un cod fara binding
@@ -624,13 +624,13 @@ class OCIdb
             $this->statement_type = oci_statement_type($this->res_parse);
             if (!$this->res_parse) {
                 $e = oci_error($this->cmd_sql);
-                $this->error_message = $e["message"];
-                $this->error_code = $e["code"];
+                $this->_error_message = $e["message"];
+                $this->_error_code = $e["code"];
                 return false;
             } else { //echo $this->cmd_sql;
                 if (oci_execute($this->res_parse, $vAutoCommit)) {
-                    $this->error_code = 0;
-                    $this->error_message = "succes la oci_execute din sql_query";
+                    $this->_error_code = 0;
+                    $this->_error_message = "succes la oci_execute din sql_query";
                     $this->nr_rows = oci_num_rows($this->res_parse);
                     $this->nr_columns = oci_num_fields($this->res_parse);
                     if ($p_sql) { //fac si returnul, nu va mai face el fetch
@@ -670,8 +670,8 @@ class OCIdb
                     }
                 } else {
                     $e = oci_error($this->res_parse);
-                    $this->error_message = $e["message"];
-                    $this->error_code = $e["code"];
+                    $this->_error_message = $e["message"];
+                    $this->_error_code = $e["code"];
                 }
                 return false;
             }
@@ -686,7 +686,7 @@ class OCIdb
 
     protected function setAllColumnsAndDatatype()
     {
-        $this->error_code = 0;
+        $this->_error_code = 0;
         $v_result = false;
         $v_table_name = strtoupper($this->table_name);
         $column_datatype = '';
@@ -707,8 +707,8 @@ class OCIdb
                 $v_result = true;
             }
         } else {
-            $this->error_code = 203;
-            $this->error_message = "error trying to set Columns and Datatype";
+            $this->_error_code = 203;
+            $this->_error_message = "error trying to set Columns and Datatype";
             $v_result = false;
         }
         return $v_result;
