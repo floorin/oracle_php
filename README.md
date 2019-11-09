@@ -6,7 +6,8 @@
 
 After the loadModel() call, results an object that contains the columns of the table as property, and the following methods:
 findFirst(), find(), next(), exportAsArray(), create(), update(), delete(), beginTransaction(), rollback(), fetchTable(), checkIfIsNull(), commit(), reset() and of course sql_query(). 
-
+If you find useful and want to use this class but need new features, give me ideas.
+https://codreanu.net/lighweight-library-to-work-with-oracle-using-php
 A very basic example how to use.
 
 Oracle table:
