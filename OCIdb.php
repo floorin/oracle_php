@@ -474,7 +474,7 @@ class OCIdb
             $this->_error_code = $e["code"];
         }
         if (oci_execute($res_parse, $vAutoCommit)) {
-            $v_row_has_been_updated = true;
+            $v_row_has_been_deleted = true;
         } else {
             $e = oci_error($res_parse);
             $this->_error_message = $e["message"];
