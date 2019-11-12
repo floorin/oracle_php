@@ -153,7 +153,7 @@ class OCIdb
             $this->_error_code = $e["code"];
             return false;
         }
-        return $rowExists;
+        return $this->rowExists;
     }
     public function find($p_array_of_params = null)
     {
