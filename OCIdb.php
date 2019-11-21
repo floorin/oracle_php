@@ -129,7 +129,7 @@ class OCIdb
         }
         $cmd_sql = 'select * from (select ' . $sqlForColumns . ',rowidtochar(rowid) as "_idrowid" from ' . $this->_table_name . ' x WHERE ' . $p_where_conditions . $orderByClause . ')  where rownum=1';
         $this->stId = oci_parse($this->_conn, $cmd_sql);
-        foreach ($bindingTable as $bindingName => $bindingValue) {
+        foreach ($bindingTable as $bindingName => &$bindingValue) {
             oci_bind_by_name($this->stId, $bindingName, $bindingValue);
         }
         if (!$this->stId) {
@@ -185,7 +185,7 @@ class OCIdb
         }
         $cmd_sql = 'select ' . $sqlForColumns . ',rowidtochar(rowid) as "_idrowid" from ' . $this->_table_name . ' x WHERE ' . $p_where_conditions . $orderByClause;
         $this->stId = oci_parse($this->_conn, $cmd_sql);
-        foreach ($bindingTable as $bindingName => $bindingValue) {
+        foreach ($bindingTable as $bindingName => &$bindingValue) {
             oci_bind_by_name($this->stId, $bindingName, $bindingValue);
         }
         if (!$this->stId) {
@@ -244,7 +244,7 @@ class OCIdb
         $cmd_sql = 'select ' . $sqlForColumns . ',rowidtochar(rowid) as "_idrowid" from ' . $this->_table_name . ' x WHERE ' . $p_where_conditions . $orderByClause;
         //die(var_dump($cmd_sql));
         $this->_res_parse = oci_parse($this->_conn, $cmd_sql);
-        foreach ($bindingTable as $bindingName => $bindingValue) {
+        foreach ($bindingTable as $bindingName => &$bindingValue) {
             oci_bind_by_name($this->_res_parse, $bindingName, $bindingValue);
         }
         if (!$this->_res_parse) {
