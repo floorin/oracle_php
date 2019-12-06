@@ -19,6 +19,7 @@ class OCIdb
     public $_nr_columns;
     public $thereAreMoreRows = false;
     private $_conn = false; //connection to the database
+    public $connDB = false; //exposed connection to the database
     private $initialRowValue = [];
     private $_res_parse;
     private $_res_res;
@@ -47,6 +48,7 @@ class OCIdb
             $this->_error_message = $m['message'];
             return false;
         } else {
+            $this->connDB=$this->_conn;
             return $this->_conn;
         }
     }
