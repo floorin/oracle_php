@@ -320,7 +320,7 @@ class OCIdb
                         $v_sql_for_column = $x_column . "=:v_" . $nr_crt;
                         break;
                     case 'DATE':
-                        if (strtolower($this->{$x_column} == 'sysdate')) {
+                        if (strtolower($this->{$x_column}) == 'sysdate') {
                             $v_sql_for_column = $x_column . "=sysdate";
                         } else {
                             $v_sql_for_column = $x_column . "=to_date(:v_" . $nr_crt . ",'" . $this->_data_format . "')";
@@ -337,19 +337,26 @@ class OCIdb
             }
         }
         $cmd_sql .= " where rowid=chartorowid(:v_rowid)";
-        //die(var_dump($cmd_sql));
+        //if(strtolower($_SERVER['LOGON_USER'])=='bcrwan\ioan.codreanu'){die(var_dump($cmd_sql));}
+
         if ($nr_crt == 0) { //there's nothing to be updated, abort
             return true;
         }
         $res_parse = oci_parse($this->_conn, $cmd_sql);
         if ($res_parse) {
             $nr_crt = 0;
-            foreach ($this->arrColsInfo as $x_column => $x_datatype) {
-                if ($this->initialRowValue[$x_column] != $this->{$x_column}) { //there is a change in column value
-                    $nr_crt++;
-                    oci_bind_by_name($res_parse, ":v_" . $nr_crt, $this->{$x_column});
+        foreach (array_filter($this->arrColsInfo, function ($column) {
+            return !in_array($column, $this->skipedAttributesOnUpdate);
+        }, ARRAY_FILTER_USE_KEY) as $x_column => $x_datatype) { //there is a change in column value
+        if ($this->initialRowValue[$x_column] != $this->{$x_column}) { //there is a change in column value
+                     $nr_crt++;
+                     if($x_datatype =='DATE' && (strtolower($this->{$x_column}) == 'sysdate')){
+                         null;
+                     }else{
+                        oci_bind_by_name($res_parse, ":v_" . $nr_crt, $this->{$x_column});
+                     }
+                    }
                 }
-            }
             oci_bind_by_name($res_parse, ":v_rowid", $this->_idrowid);
         } else { //error on parsing
             $e = oci_error($res_parse);
