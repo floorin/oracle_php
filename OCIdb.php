@@ -506,6 +506,7 @@ class OCIdb
             array_push($tmpArr, $oneRow);
             $this->next();
         }
+        $this->_nr_rows=count($tmpArr);
         return $tmpArr;
     }
     public function sql_query($p_array_of_params = null)
