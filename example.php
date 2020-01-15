@@ -1,4 +1,3 @@
-```php
 <?php
 /*
 create this table before tu run the script
@@ -125,4 +124,3 @@ $EmployeeController->rollback('SAVEPOINT1');
 $EmployeeController->commit();
 }
 ?>
-```
