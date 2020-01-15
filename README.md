@@ -5,6 +5,16 @@
 *Of course, you need to have enabled OCI8 php extension.*
 
 See wiki page for documentation. https://github.com/floorin/oracle_php/wiki
+It provides a base class that can be extended to create both model classes and controller classes for tables stored in Oracle using OCI, in order to access data records. 
+The model automatically extract metadata for the table, no need to describe them, just set the source table and you can start to retrieve and modify records in the database.
+The base classes provide functions that can:
+- Create new records
+- Update records
+- Delete records
+- Find records that match given criterion
+- Use transactions
+- Skip columns
+and so on.
 
 After the loadModel() call, results an object that contains the columns of the table as property, and the following methods:
 findFirst(), find(), next(), exportAsArray(), create(), update(), delete(), beginTransaction(), rollback(), fetchTable(), checkIfIsNull(), commit(), reset() and of course sql_query(). 
