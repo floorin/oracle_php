@@ -215,6 +215,93 @@ class OCIdb
         }
         return $this->rowExists;
     }
+        public function paginate($p_array_of_params = null)
+    {
+            function delete_col(&$array, $key) {
+                return array_walk($array, function (&$v) use ($key) {
+                    unset($v[$key]);
+                });
+            }
+        $responce = new stdClass();
+        $responce->nrOfRowsInPage=0;
+        $responce->pageNumber=0;
+        $responce->totalRows=0;
+        $responce->totalPages=0;
+        $responce->rows=[];
+
+        $p_where_conditions = "1=1";
+        $bindingTable = [];
+        $this->rowExists = false;
+        $orderByClause = '';
+        $result = [];
+        $sqlForColumns = '';
+        if (func_num_args() > 0) {
+            if (array_key_exists('conditions', $p_array_of_params)) {
+                $p_where_conditions = $p_array_of_params["conditions"];
+            }
+            if (array_key_exists('bind', $p_array_of_params)) {
+                $bindingTable = $p_array_of_params["bind"];
+            }
+            if (array_key_exists('order by', $p_array_of_params)) {
+                $orderByClause = " order by " . $p_array_of_params["order by"];
+            }
+            if (array_key_exists('paginator', $p_array_of_params)) {
+                $paginator = $p_array_of_params["paginator"];
+                $nrOfRowsInPage=intval($paginator['nrOfRowsInPage']);
+                $pageNumber=intval($paginator['pageNumber']);
+                $responce->nrOfRowsInPage=$nrOfRowsInPage;
+                $responce->pageNumber=$pageNumber;
+            }
+        }
+        $firstCycle = true;
+        foreach ($this->arrColsInfo as $x_column => $x_datatype) {
+            if (array_key_exists($x_column, $this->columnsAlias)) {
+                $sqlForColumns .= ($firstCycle ? '' : ',') . ' x.' . $x_column . ' as "' . $this->columnsAlias[$x_column] . '"';
+            } else {
+                $sqlForColumns .= ($firstCycle ? '' : ',') . ' x.' . $x_column . ' as "' . $x_column . '"';
+            }
+            $firstCycle = false;
+        }
+        $cmd_sql = 'select * from (select x.*,rownum as "rowNumber" from (select ' . $sqlForColumns . ',rowidtochar(rowid) as "_idrowid",COUNT(*) OVER () RESULT_COUNT from ' . $this->_table_name . ' x WHERE ' . $p_where_conditions . $orderByClause.') x
+        WHERE rownum < (('.$pageNumber.' * '.$nrOfRowsInPage.') + 1 )
+        )
+        WHERE "rowNumber" >= ((('.$pageNumber.'-1) * '.$nrOfRowsInPage.') + 1)
+        ';
+      //die(var_dump($cmd_sql));
+        $this->_res_parse = oci_parse($this->_conn, $cmd_sql);
+        foreach ($bindingTable as $bindingName => &$bindingValue) {
+            oci_bind_by_name($this->_res_parse, $bindingName, $bindingValue);
+        }
+        oci_bind_by_name($this->_res_parse, $bindingName, $bindingValue);
+        oci_bind_by_name($this->_res_parse, $bindingName, $bindingValue);
+        if (!$this->_res_parse) {
+            $e = oci_error($cmd_sql);
+            $this->_error_message = $e["message"];
+            $this->_error_code = $e["code"];
+        }
+        if (oci_execute($this->_res_parse)) {
+            $this->_nr_columns = oci_num_fields($this->_res_parse);
+            $result = [];
+            $this->_nr_rows = oci_fetch_all($this->_res_parse, $result, 0, $this->MAXIMUM_PREFETCH_NUMBER, OCI_FETCHSTATEMENT_BY_ROW + OCI_ASSOC + OCI_RETURN_NULLS);
+            if (count($result) == 0) {
+                $result = false;
+            }
+            else{
+                $responce->totalRows=$result[0]['RESULT_COUNT'];
+                $responce->totalPages=ceil($responce->totalRows/$responce->nrOfRowsInPage);
+                delete_col($result,'RESULT_COUNT');
+                $responce->rows=$result;
+                die(json_encode($responce));
+            }
+        } else {
+            echo "error";
+            $e = oci_error($this->_res_parse);
+            $this->_error_message = $e["message"];
+            $this->_error_code = $e["code"];
+            return false;
+        }
+        return $result;
+    }
     public function fetchTable($p_array_of_params = null)
     {
         $p_where_conditions = "1=1";
