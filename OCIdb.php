@@ -272,8 +272,6 @@ class OCIdb
         foreach ($bindingTable as $bindingName => &$bindingValue) {
             oci_bind_by_name($this->_res_parse, $bindingName, $bindingValue);
         }
-        oci_bind_by_name($this->_res_parse, $bindingName, $bindingValue);
-        oci_bind_by_name($this->_res_parse, $bindingName, $bindingValue);
         if (!$this->_res_parse) {
             $e = oci_error($cmd_sql);
             $this->_error_message = $e["message"];
